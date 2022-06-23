@@ -206,7 +206,6 @@ protected:
   virtual void DoInitialize (void);
   virtual void NotifyNewAggregate (void);
 
-private:
   /**
    * \brief Protocol handler entry.
    * This structure is used to demultiplex all the protocols.

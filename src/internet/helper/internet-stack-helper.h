@@ -154,7 +154,7 @@ public:
    * 
    * \param node The node on which to install the stack.
    */
-  void Install (Ptr<Node> node) const;
+  virtual void Install (Ptr<Node> node) const;
 
   /**
    * For each node in the input container, aggregate implementations of the 
@@ -222,7 +222,7 @@ public:
   */
   int64_t AssignStreams (NodeContainer c, int64_t stream);
 
-private:
+protected:
   /**
    * @brief Enable pcap output the indicated Ipv4 and interface pair.
    *

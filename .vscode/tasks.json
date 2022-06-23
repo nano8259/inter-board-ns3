@@ -20,6 +20,11 @@
                 "kind": "test",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Format",
+            "type": "shell",
+            "command": "${workspaceFolder}/utils/check-style.py -i -l 3 -f ${file}",
         }
     ]
 }
