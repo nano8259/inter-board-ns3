@@ -22,7 +22,7 @@
 #include "ns3/object.h"
 #include "ns3/address.h"
 #include "ns3/net-device.h"
-#include "ns3/traced-callback.h"
+#include "ns3/traced-value.h"
 #include "ns3/node.h"
 #include "ns3/queue-item.h"
 #include "traffic-control-layer.h"
@@ -91,11 +91,6 @@ public:
     LINK_SYNCHING        = 0xc  << 24,
     LAST_STATE    /**< Last state, used only in debug messages                */
   } TipcStates_t;
-
-  /**
-   * \brief Callback pointer for ECN state trace chaining
-   */
-  TracedCallback<TipcStates_t, TipcStates_t> m_stateTrace;
 
 protected:
 
@@ -260,7 +255,7 @@ private:
   uint32_t m_tolerance;
   uint32_t m_abort_limit;
 
-  TipcStates_t m_state;
+  TracedValue<TipcStates_t> m_state;
 
   uint16_t m_peer_caps;
   bool m_in_session;

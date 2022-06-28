@@ -47,8 +47,8 @@ TipcSignalLinkLayer::GetTypeId (void)
     .AddConstructor<TipcSignalLinkLayer> ()
     .AddTraceSource ("TipcState",
                      "Trace TIPC state change of a TIPC signal link layer endpoint",
-                     MakeTraceSourceAccessor (&TipcSignalLinkLayer::m_stateTrace),
-                     "ns3::TipcSignalLinkLayer::TipcStatesTracedValueCallback")
+                     MakeTraceSourceAccessor (&TipcSignalLinkLayer::m_state),
+                     "ns3::TracedValueCallback::EcnState")
   ;
   return tid;
 }
