@@ -60,7 +60,11 @@ TipcSignalLinkLayer::GetInstanceTypeId (void) const
 }
 
 TipcSignalLinkLayer::TipcSignalLinkLayer ()
-  : TrafficControlLayer ()
+  : TrafficControlLayer (),
+    m_peerAddr (0),
+    m_session (0),
+    m_state (LINK_RESETTING),
+    m_inSession (false)
 {
   NS_LOG_FUNCTION (this);
 }
@@ -91,6 +95,17 @@ TipcSignalLinkLayer::NotifyNewAggregate ()
 {
   NS_LOG_FUNCTION (this);
   TrafficControlLayer::NotifyNewAggregate ();
+}
+
+void
+TipcSignalLinkLayer::Awake ()
+{}
+
+void
+TipcSignalLinkLayer::Reset ()
+{
+  m_inSession = false;
+  m_session++;
 }
 
 uint32_t
@@ -262,5 +277,57 @@ illegal_evt:
   NS_FATAL_ERROR (errSs.str ());
   return rc;
 }
+
+// uint32_t
+// TipcSignalLinkLayer::tipc_link_timeout()
+// {
+//      uint32_t mtyp = 0;
+//      uint32_t rc = 0;
+//      bool state = false;
+//      bool probe = false;
+//      bool setup = false;
+//      // uint16_t bc_snt = l->bc_sndlink->snd_nxt - 1;
+//      // uint16_t bc_acked = l->bc_rcvlink->acked;
+//      // struct tipc_mon_state *mstate = &l->mon_state;
+//      // trace_tipc_link_timeout(l, TIPC_DUMP_NONE, " ");
+//      // trace_tipc_link_too_silent(l, TIPC_DUMP_ALL, " ");
+//      switch (m_state) {
+//      case LINK_ESTABLISHED:
+//      case LINK_SYNCHING:
+//              mtyp = STATE_MSG;
+//              // link_profile_stats(l);
+//              // tipc_mon_get_state(l->net, l->addr, mstate, l->bearer_id);
+//              // if (mstate->reset || (l->silent_intv_cnt > l->abort_limit))
+//              //      return tipc_link_fsm_evt(l, LINK_FAILURE_EVT);
+//              // state = bc_acked != bc_snt;
+//              // state |= l->bc_rcvlink->rcv_unacked;
+//              // state |= l->rcv_unacked;
+//              state |= !skb_queue_empty(&l->transmq);
+//              state |= !skb_queue_empty(&l->deferdq);
+//              probe = mstate->probing;
+//              probe |= l->silent_intv_cnt;
+//              if (probe || mstate->monitoring)
+//                      l->silent_intv_cnt++;
+//              break;
+//      case LINK_RESET:
+//              setup = l->rst_cnt++ <= 4;
+//              setup |= !(l->rst_cnt % 16);
+//              mtyp = RESET_MSG;
+//              break;
+//      case LINK_ESTABLISHING:
+//              setup = true;
+//              mtyp = ACTIVATE_MSG;
+//              break;
+//      case LINK_PEER_RESET:
+//      case LINK_RESETTING:
+//      case LINK_FAILINGOVER:
+//              break;
+//      default:
+//              break;
+//      }
+//      if (state || probe || setup)
+//              tipc_link_build_proto_msg(l, mtyp, probe, 0, 0, 0, 0, xmitq);
+//      return rc;
+// }
 
 } // namespace ns3

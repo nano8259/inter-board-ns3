@@ -19,6 +19,8 @@ build_lib(
     model/tbf-queue-disc.cc
     model/traffic-control-layer.cc
     model/tipc-signal-link-layer.cc
+    model/tipc-signal-link-header.cc
+    model/tipc-signal-link-monitor.cc
   HEADER_FILES
     helper/queue-disc-container.h
     helper/traffic-control-helper.h
@@ -38,6 +40,8 @@ build_lib(
     model/tbf-queue-disc.h
     model/traffic-control-layer.h
     model/tipc-signal-link-layer.h
+    model/tipc-signal-link-header.h
+    model/tipc-signal-link-monitor.h
   LIBRARIES_TO_LINK
     ${libnetwork}
     ${libcore}
