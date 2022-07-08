@@ -26,6 +26,7 @@
 #include "ns3/header.h"
 #include "ns3/ipv4-address.h"
 #include "ns3/ipv6-address.h"
+#include "ns3/sequence-number.h"
 
 namespace ns3 {
 /**
@@ -60,6 +61,11 @@ public:
 
   void SetOriginatingNode (uint16_t node);
   uint16_t GetOriginatingNode (void) const;
+    /**
+   * \brief Get the sequence number
+   * \return the sequence number for this TcpHeader
+   */
+  SequenceNumber32 GetSequenceNumber () const;
 
   /**
    * \brief Get the type ID.

@@ -21,6 +21,9 @@ build_lib(
     model/tipc-signal-link-layer.cc
     model/tipc-signal-link-header.cc
     model/tipc-signal-link-monitor.cc
+    model/tipc-signal-link-tx-buffer.cc
+    model/tipc-signal-link-tx-item.cc
+    model/tipc-signal-link-rx-buffer.cc
   HEADER_FILES
     helper/queue-disc-container.h
     helper/traffic-control-helper.h
@@ -41,7 +44,9 @@ build_lib(
     model/traffic-control-layer.h
     model/tipc-signal-link-layer.h
     model/tipc-signal-link-header.h
-    model/tipc-signal-link-monitor.h
+    model/tipc-signal-link-tx-buffer.h
+    model/tipc-signal-link-tx-item.h
+    model/tipc-signal-link-rx-buffer.h
   LIBRARIES_TO_LINK
     ${libnetwork}
     ${libcore}

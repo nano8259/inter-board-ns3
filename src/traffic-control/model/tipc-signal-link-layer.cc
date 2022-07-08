@@ -61,7 +61,7 @@ TipcSignalLinkLayer::GetInstanceTypeId (void) const
 
 TipcSignalLinkLayer::TipcSignalLinkLayer ()
   : TrafficControlLayer (),
-    m_peerAddr (0),
+    m_addr (0),
     m_session (0),
     m_state (LINK_RESETTING),
     m_inSession (false)
@@ -106,6 +106,12 @@ TipcSignalLinkLayer::Reset ()
 {
   m_inSession = false;
   m_session++;
+}
+
+void
+TipcSignalLinkLayer::SetMonitor (Ptr<TipcSignalLinkMonitor> monitor)
+{
+  m_monitor = monitor;
 }
 
 uint32_t
@@ -296,22 +302,22 @@ illegal_evt:
 //      case LINK_SYNCHING:
 //              mtyp = STATE_MSG;
 //              // link_profile_stats(l);
-//              // tipc_mon_get_state(l->net, l->addr, mstate, l->bearer_id);
-//              // if (mstate->reset || (l->silent_intv_cnt > l->abort_limit))
-//              //      return tipc_link_fsm_evt(l, LINK_FAILURE_EVT);
+//              m_monitor->tipc_mon_get_state(m_addr, m_monState, m_bearer_id);
+//              if (m_monState.reset || (m_silent_intv_cnt > m_abort_limit))
+//                   return LinkFsmEvent(LINK_FAILURE_EVT);
 //              // state = bc_acked != bc_snt;
 //              // state |= l->bc_rcvlink->rcv_unacked;
-//              // state |= l->rcv_unacked;
-//              state |= !skb_queue_empty(&l->transmq);
-//              state |= !skb_queue_empty(&l->deferdq);
-//              probe = mstate->probing;
-//              probe |= l->silent_intv_cnt;
-//              if (probe || mstate->monitoring)
-//                      l->silent_intv_cnt++;
+//              state |= m_rcv_unacked;
+//             //  state |= !skb_queue_empty(&l->transmq);
+//             //  state |= !skb_queue_empty(&l->deferdq);
+//              probe = m_monState.probing;
+//              probe |= m_silent_intv_cnt;
+//              if (probe || m_monState.monitoring)
+//                      m_silent_intv_cnt++;
 //              break;
 //      case LINK_RESET:
-//              setup = l->rst_cnt++ <= 4;
-//              setup |= !(l->rst_cnt % 16);
+//              setup = m_rst_cnt++ <= 4;
+//              setup |= !(m_rst_cnt % 16);
 //              mtyp = RESET_MSG;
 //              break;
 //      case LINK_ESTABLISHING:

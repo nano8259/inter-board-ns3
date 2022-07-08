@@ -114,6 +114,10 @@ public:
    */
   void Reset ();
 
+  void SetMonitor (Ptr<TipcSignalLinkMonitor> monitor);
+
+  uint32_t tipc_link_timeout();
+
 protected:
 
   virtual void DoDispose (void);
@@ -263,7 +267,7 @@ private:
  * @nack_state: bcast nack state
  * @bc_peer_is_up: peer has acked the bcast init msg
  */
-  uint32_t m_peerAddr;
+  uint32_t m_addr;
   // char m_name[TIPC_MAX_LINK_NAME];
   // struct net *net;
 
@@ -278,6 +282,7 @@ private:
   uint32_t m_abort_limit;
 
   TracedValue<TipcStates_t> m_state;
+  Ptr<TipcSignalLinkMonitor> m_monitor;
 
   uint16_t m_peer_caps;
   bool m_inSession;
@@ -313,8 +318,8 @@ private:
   // uint16_t m_snd_nxt;
 
   /* Reception */
-  // uint16_t m_rcv_nxt;
-  // uint32_t m_rcv_unacked;
+  uint16_t m_rcv_nxt;
+  uint32_t m_rcv_unacked;
   // struct sk_buff_head deferdq;
   // struct sk_buff_head *inputq;
   // struct sk_buff_head *namedq;
