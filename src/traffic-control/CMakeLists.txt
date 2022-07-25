@@ -19,6 +19,9 @@ build_lib(
     model/tbf-queue-disc.cc
     model/traffic-control-layer.cc
     model/tipc-signal-link-layer.cc
+    model/tipc-signal-link-node.cc
+    model/tipc-core.cc
+    model/tipc-signal-link.cc
     model/tipc-signal-link-header.cc
     model/tipc-signal-link-monitor.cc
     model/tipc-signal-link-tx-buffer.cc
@@ -43,6 +46,9 @@ build_lib(
     model/tbf-queue-disc.h
     model/traffic-control-layer.h
     model/tipc-signal-link-layer.h
+    model/tipc-signal-link-node.h
+    model/tipc-core.h
+    model/tipc-signal-link.h
     model/tipc-signal-link-header.h
     model/tipc-signal-link-tx-buffer.h
     model/tipc-signal-link-tx-item.h

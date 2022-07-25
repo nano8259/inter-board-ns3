@@ -17,75 +17,82 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "tipc-signal-link-layer.h"
+#include "tipc-core.h"
 #include "ns3/net-device-queue-interface.h"
 #include "ns3/log.h"
 #include "ns3/object-map.h"
 #include "ns3/packet.h"
 #include "ns3/socket.h"
 #include "ns3/queue-disc.h"
+#include "ns3/random-variable-stream.h"
 // #include <tuple>
 #include <sstream>
 
 namespace ns3 {
 
-NS_LOG_COMPONENT_DEFINE ("TipcSignalLinkLayer");
+NS_LOG_COMPONENT_DEFINE ("TipcCore");
 
-NS_OBJECT_ENSURE_REGISTERED (TipcSignalLinkLayer);
+NS_OBJECT_ENSURE_REGISTERED (TipcCore);
+
+// The address is start at 1, 0 is reserved as error value
+uint32_t TipcCore::global_node_addr = 1;
 
 TypeId
-TipcSignalLinkLayer::GetTypeId (void)
+TipcCore::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("ns3::TipcSignalLinkLayer")
+  static TypeId tid = TypeId ("ns3::TipcCore")
     .SetParent<TrafficControlLayer> ()
     .SetGroupName ("Tipc")
-    .AddConstructor<TipcSignalLinkLayer> ()
-    // .AddTraceSource ("TipcState",
-    //                  "Trace TIPC state change of a TIPC signal link layer endpoint",
-    //                  MakeTraceSourceAccessor (&TipcSignalLinkLayer::m_state),
-    //                  "ns3::TracedValueCallback::EcnState")
+    .AddConstructor<TipcCore> ()
   ;
   return tid;
 }
 
 TypeId
-TipcSignalLinkLayer::GetInstanceTypeId (void) const
+TipcCore::GetInstanceTypeId (void) const
 {
   return GetTypeId ();
 }
 
-TipcSignalLinkLayer::TipcSignalLinkLayer ()
-  : TrafficControlLayer ()
+TipcCore::TipcCore ()
+  : Object ()
 {
   NS_LOG_FUNCTION (this);
+  m_net_id = 4711; // don't know why
+  m_node_addr = global_node_addr++;
+  m_mon_threshold = TIPC_DEF_MON_THRESHOLD;
+  Ptr<UniformRandomVariable> x = CreateObject<UniformRandomVariable> ();
+  m_random = x->GetInteger ();
+  sprintf(reinterpret_cast<char *>(m_node_id), "%x", m_node_addr);
+  sprintf(m_node_id_string, "%x", m_node_addr);
 }
 
-TipcSignalLinkLayer::~TipcSignalLinkLayer ()
+TipcCore::~TipcCore ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-TipcSignalLinkLayer::DoDispose (void)
+TipcCore::DoDispose (void)
 {
   NS_LOG_FUNCTION (this);
   // TODO: destruct logic here
-  TrafficControlLayer::DoDispose ();
+  Object::DoDispose ();
 }
 
 void
-TipcSignalLinkLayer::DoInitialize (void)
+TipcCore::DoInitialize (void)
 {
   NS_LOG_FUNCTION (this);
   // TODO: initialize logic here
-  TrafficControlLayer::DoInitialize ();
+  Object::DoInitialize ();
 }
 
 void
-TipcSignalLinkLayer::NotifyNewAggregate ()
+TipcCore::NotifyNewAggregate ()
 {
   NS_LOG_FUNCTION (this);
-  TrafficControlLayer::NotifyNewAggregate ();
+  Object::NotifyNewAggregate ();
 }
 
 

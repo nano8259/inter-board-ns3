@@ -29,6 +29,65 @@
 #include "ns3/sequence-number.h"
 
 namespace ns3 {
+/*
+ * Limiting values for messages
+ */
+#define TIPC_MAX_USER_MSG_SIZE	66000U
+/*
+* Constants and routines used to read and write TIPC payload message headers
+*
+* Note: Some items are also used with TIPC internal message headers
+*/
+#define TIPC_VERSION              2
+
+/*
+ * Payload message users are defined in TIPC's public API:
+ * - TIPC_LOW_IMPORTANCE
+ * - TIPC_MEDIUM_IMPORTANCE
+ * - TIPC_HIGH_IMPORTANCE
+ * - TIPC_CRITICAL_IMPORTANCE
+ */
+#define TIPC_SYSTEM_IMPORTANCE  4
+/*
+ * Payload message types
+ */
+#define TIPC_CONN_MSG           0
+#define TIPC_MCAST_MSG          1
+#define TIPC_NAMED_MSG          2
+#define TIPC_DIRECT_MSG         3
+#define TIPC_GRP_MEMBER_EVT     4
+#define TIPC_GRP_BCAST_MSG      5
+#define TIPC_GRP_MCAST_MSG      6
+#define TIPC_GRP_UCAST_MSG      7
+/*
+ * Internal message users
+ */
+#define  BCAST_PROTOCOL       5
+#define  MSG_BUNDLER          6
+#define  LINK_PROTOCOL        7
+#define  CONN_MANAGER         8
+#define  GROUP_PROTOCOL       9
+#define  TUNNEL_PROTOCOL      10
+#define  NAME_DISTRIBUTOR     11
+#define  MSG_FRAGMENTER       12
+#define  LINK_CONFIG          13
+#define  SOCK_WAKEUP          14       /* pseudo user */
+#define  TOP_SRV              15       /* pseudo user */
+/*
+ * Message header sizes
+ */
+#define SHORT_H_SIZE              24    /* In-cluster basic payload message */
+#define BASIC_H_SIZE              32    /* Basic payload message */
+#define NAMED_H_SIZE              40    /* Named payload message */
+#define MCAST_H_SIZE              44    /* Multicast payload message */
+#define GROUP_H_SIZE              44    /* Group payload message */
+#define INT_H_SIZE                40    /* Internal messages */
+#define MIN_H_SIZE                24    /* Smallest legal TIPC header size */
+#define MAX_H_SIZE                60    /* Largest possible TIPC header size */
+#define MAX_MSG_SIZE (MAX_H_SIZE + TIPC_MAX_USER_MSG_SIZE)
+#define FB_MTU                  3744
+#define TIPC_MEDIA_INFO_OFFSET  5
+
 /**
  * \ingroup udp
  * \brief Packet header for UDP packets
@@ -61,10 +120,10 @@ public:
 
   void SetOriginatingNode (uint16_t node);
   uint16_t GetOriginatingNode (void) const;
-    /**
-   * \brief Get the sequence number
-   * \return the sequence number for this TcpHeader
-   */
+  /**
+ * \brief Get the sequence number
+ * \return the sequence number for this TcpHeader
+ */
   SequenceNumber32 GetSequenceNumber () const;
 
   /**

@@ -136,7 +136,7 @@ public:
 
   int tipc_mon_create (int bearer_id);
   void tipc_mon_delete (int bearer_id);
-  void tipc_mon_peer_up (uint32_t addr, int bearer_id);
+  void tipc_mon_peer_up (uint32_t addr);
   void tipc_mon_peer_down (uint32_t addr, int bearer_id);
   void tipc_mon_prep (void *data, int & dlen,
                       struct tipc_mon_state & state, int bearer_id);

@@ -47,6 +47,7 @@
 #include "ns3/icmpv6-l4-protocol.h"
 #include "ns3/global-router-interface.h"
 #include "ns3/tipc-signal-link-layer.h"
+#include "ns3/tipc-core.h"
 #include <limits>
 #include <map>
 
@@ -134,6 +135,7 @@ TipcStackHelper::Install (Ptr<Node> node) const
 
   if (m_ipv4Enabled || m_ipv6Enabled)
     {
+      CreateAndAggregateObjectFromTypeId (node, "ns3::TipcCore");
       CreateAndAggregateObjectFromTypeId (node, "ns3::TipcSignalLinkLayer");
       CreateAndAggregateObjectFromTypeId (node, "ns3::UdpL4Protocol");
       node->AggregateObject (m_tcpFactory.Create<Object> ());

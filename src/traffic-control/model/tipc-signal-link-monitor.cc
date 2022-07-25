@@ -436,7 +436,7 @@ TipcSignalLinkMonitor::tipc_mon_add_peer (uint32_t addr)
 }
 
 void
-TipcSignalLinkMonitor::tipc_mon_peer_up (uint32_t addr, int bearer_id)
+TipcSignalLinkMonitor::tipc_mon_peer_up (uint32_t addr)
 {
   struct tipc_peer & self = m_self;
 
